@@ -12,18 +12,21 @@ public class FrequencySort {
     public String sortCharacterByFrequency(String s){
         //aabbccc, //aaAbCC
         Map<Character, Integer> f = new HashMap<>();
+        
+        //Returns the value to which the specified key is mapped, or 
+        // defaultValue if this map contains no mapping for the key.
         for(char ch: s.toCharArray()){
             f.put(ch, f.getOrDefault(ch, 0) + 1);
         }
         
-        PriorityQueue<Character> heap = new PriorityQueue<>(
+        PriorityQueue<Character> priorityQueue = new PriorityQueue<>(
             (a,b) -> f.get(b) - f.get(a)
         );
-        heap.addAll(f.keySet());
+        priorityQueue.addAll(f.keySet());
 
         StringBuilder sb = new StringBuilder();
-        while (!heap.isEmpty()) {
-            char c = heap.poll();
+        while (!priorityQueue.isEmpty()) {
+            char c = priorityQueue.poll();
             for(int i = 0; i< f.get(c); i++){
                 sb.append(c);
             }
@@ -43,10 +46,22 @@ public class FrequencySort {
         //{(t,1), (r, 1), (e, 2)}
         //size is length + 1, considering a string is "aaaa", so 
         // that makes the highest frequency 4
+
         List<Character>[] buckeLists = new List[s.length() + 1]; 
+        //right now, [ null, null, null, null, ... ]
+        /*bucket[0] = null
+        bucket[1] = null
+        bucket[2] = null
+        bucket[3] = null
+        */
+
         for( char ch: map.keySet()){
             if(buckeLists[map.get(ch)] == null) 
+                //before initialization:
+                /* bucket[1] = null, bucket[2] = null, bucket[3] = null, bucket[4] = null*/
                 buckeLists[map.get(ch)] = new ArrayList<>();
+                //after initialization:
+                /* bucket[1] = [], bucket[2] = [], bucket[3] = [], bucket[4] = []*/
             buckeLists[map.get(ch)].add(ch);
         }
 
