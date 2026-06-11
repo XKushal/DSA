@@ -1,6 +1,20 @@
 import java.util.Arrays;
 
 class MoveZeroes {
+    public int[] bruteForceMoveZeroes(int[] nums) {
+        int[] arranged = new int[nums.length];
+        int insertIndex = 0;
+
+        for (int num : nums) {
+            if (num != 0) {
+                arranged[insertIndex] = num;
+                insertIndex++;
+            }
+        }
+
+        return arranged;
+    }
+
     public void moveZeroes(int[] nums) {
         int insertIndex = 0;
 
@@ -26,6 +40,15 @@ class MoveZeroes {
     public static void main(String[] args) {
         MoveZeroes solution = new MoveZeroes();
 
+        check(
+                "brute force moves zeroes behind non-zero values",
+                solution.bruteForceMoveZeroes(new int[] {0, 1, 0, 3, 12}),
+                new int[] {1, 3, 12, 0, 0});
+        check(
+                "brute force keeps an array without zeroes the same",
+                solution.bruteForceMoveZeroes(new int[] {1, 2, 3}),
+                new int[] {1, 2, 3});
+
         int[] mixed = {0, 1, 0, 3, 12};
         solution.moveZeroes(mixed);
         check("moves zeroes behind non-zero values", mixed, new int[] {1, 3, 12, 0, 0});
@@ -41,7 +64,14 @@ class MoveZeroes {
 }
 
 /*
- * Approach:
+ * Brute Force:
+ * I copy every non-zero value into a new array in order. The remaining indexes
+ * stay as zero because Java initializes int arrays with zero values.
+ *
+ * Time Complexity: O(n), where n is the length of nums.
+ * Space Complexity: O(n), because a second array is created.
+ *
+ * Optimal Interview Solution:
  * I keep one pointer for the next position where a non-zero value should go.
  * After copying all non-zero values forward in their original order, I fill the
  * rest of the array with zeroes.
